@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3-alpine'
-            args '--mount type=bind,source="/var/lib/jenkins/.m2",target="/root/.m2"'
+            args '--mount type=bind,source="/var/lib/jenkins/.m2",target="/var/lib/jenkins/.m2"'
         }
     }
     stages {
