@@ -31,5 +31,17 @@ pipeline {
                 sh './jenkins/scripts/deliver.sh'
             }
         }
+        stage('Build Container') {
+            steps {
+                sh 'cp target/my-app-1.0-SNAPSHOT.jar .'
+                sh 'docker build -t myapp .'
+            }
+        }
+        stage('Test Container') {
+            steps {
+                sh 'docker run myapp'
+            }
+        }
+
     }
 }
