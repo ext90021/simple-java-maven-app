@@ -31,19 +31,5 @@ pipeline {
                 sh './jenkins/scripts/deliver.sh'
             }
         }
-        stage('Build Container') {
-            agent any
-            steps {
-                sh 'cp target/my-app-1.0-SNAPSHOT.jar .'
-                sh 'docker build -t myapp .'
-            }
-        }
-        stage('Test Container') {
-            agent any
-            steps {
-                sh 'docker run myapp'
-            }
-        }
-
     }
 }
