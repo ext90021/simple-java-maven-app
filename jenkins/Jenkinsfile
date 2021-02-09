@@ -32,14 +32,14 @@ pipeline {
             }
         }
         stage('Build Container') {
-            agent { any }
+            agent any
             steps {
                 sh 'cp target/my-app-1.0-SNAPSHOT.jar .'
                 sh 'docker build -t myapp .'
             }
         }
         stage('Test Container') {
-            agent { any }
+            agent any
             steps {
                 sh 'docker run myapp'
             }
