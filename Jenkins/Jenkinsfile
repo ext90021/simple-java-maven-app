@@ -6,7 +6,7 @@ pipeline {
     }
 
     parameters {
-        string(name: 'ImageName', defaultValue: 'simple-java-maven')
+        string(name: 'ImageName', defaultValue: 'helloDataHub')
         string(name: 'RepoName', defaultValue: 'ext90021')
     }
     stages {
