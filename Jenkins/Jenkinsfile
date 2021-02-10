@@ -30,7 +30,7 @@ pipeline {
         stage('Compile Docker image') {
             agent any
             steps {
-                sh "cp ./target/my-app-1.0-SNAPSHOT.jar ./docker"
+                sh "cp ./target/HelloDataHub-1.0-SNAPSHOT.jar ./docker"
                 sh "/usr/bin/docker build -t ${params.ImageName}:${BUILD_ID} ./docker"
             }
         }
