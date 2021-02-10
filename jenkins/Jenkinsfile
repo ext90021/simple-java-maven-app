@@ -5,8 +5,12 @@ pipeline {
         skipStagesAfterUnstable()
     }
 
+    parameters {
+        string(name: 'ImageName', defaultValue: 'simple-java-maven')
+        string(name: 'RepoName', defaultValue: 'ext90021')
+    }
     stages {
-        stage('Build') {
+        stage('Build and Test') {
             agent {
                 docker {
                     image 'maven:3-alpine'
@@ -24,10 +28,19 @@ pipeline {
                 }
             }
         }
-        stage('Container') {
+        stage('Compile Docker image') {
             agent any
             steps {
-                sh 'docker ps -a'
+                sh "cp ./target/my-app-1.0-SNAPSHOT.jar ./docker"
+                sh "/usr/bin/docker build -t ${params.ImageName}:${BUILD_ID} ./docker"
+            }
+        }
+
+        stage('Push Docker image') {
+            agent any
+            steps {
+                sh "/usr/bin/docker tag ${params.ImageName}:${BUILD_ID} ${params.RepoName}/${params.ImageName}:${BUILD_ID}"
+                sh "/usr/bin/docker push ${params.RepoName}/${params.ImageName}:${BUILD_ID}"
             }
         }
     }
