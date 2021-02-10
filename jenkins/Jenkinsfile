@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-u 0:0 --mount type=bind,source="/var/lib/jenkins/.m2",target="/root/.m2"'
-        }
-    }
+    agent none
 
     options {
         skipStagesAfterUnstable()
@@ -12,23 +7,21 @@ pipeline {
 
     stages {
         stage('Build') {
+            agent {
+                docker {
+                    image 'maven:3-alpine'
+                    args '-u 0:0 --mount type=bind,source="/var/lib/jenkins/.m2",target="/root/.m2"'
+                }
+            }
             steps {
                 sh 'mvn -B -DskipTests clean package'
-            }
-        }
-        stage('Test') {
-            steps {
                 sh 'mvn test'
+                sh './jenkins/scripts/deliver.sh'
             }
             post {
                 always {
                     junit 'target/surefire-reports/*.xml'
                 }
-            }
-        }
-        stage('Deliver') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
             }
         }
     }
