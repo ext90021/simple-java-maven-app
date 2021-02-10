@@ -1,4 +1,4 @@
-package com.mycompany.app;
+package de.sky.app;
 
 /**
  * Hello world!
@@ -6,7 +6,7 @@ package com.mycompany.app;
 public class App
 {
 
-    private final String message = "Hello World!";
+    private final String message = "Hello DataHub!";
 
     public App() {}
 
